@@ -16,4 +16,14 @@ MainWindow::~MainWindow()
 void MainWindow::on_btnRegenerate_clicked()
 {
     ui->myCanvas->Regenerate();
+    solved = false;
+}
+
+void MainWindow::on_btnSolve_clicked()
+{
+    if(!solved)
+    {
+        ui->myCanvas->Solve();
+        solved = true;
+    }
 }

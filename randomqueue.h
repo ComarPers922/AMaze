@@ -4,6 +4,8 @@
 #include <QLinkedList>
 #include <QtGlobal>
 #include <ctime>
+#include <QUuid>
+#include <QDebug>
 
 template<class T>
 class RandomQueue
@@ -13,7 +15,8 @@ private:
 public:
     RandomQueue()
     {
-      qsrand(time(NULL));
+        auto id = QUuid::createUuid();
+        qsrand(time(NULL) + id.toByteArray()[1] * id.toByteArray()[2] * + id.toByteArray()[3]);
     }
 
     void add(T data)

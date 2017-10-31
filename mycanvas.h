@@ -3,16 +3,22 @@
 
 #include <QWidget>
 #include <QPaintEvent>
+#include <QStack>
 #include "mazedata.h"
 #include "randomqueue.h"
+#include "position.h"
 
 class MyCanvas : public QWidget
 {
     Q_OBJECT
+private:
+    QStack<Position> stack;
+    bool visited[MazeData::height][MazeData::height];
+    bool isPath[MazeData::height][MazeData::height];
 public:
     explicit MyCanvas(QWidget *parent = 0);
     void Regenerate();
-
+    void Solve();
 signals:
 
 public slots:
@@ -20,6 +26,7 @@ protected:
     virtual void paintEvent(QPaintEvent *);
 private:
     MazeData myMaze;
+    bool _Solve(int startX, int startY, int endX, int endY);
     void Generate();
 };
 

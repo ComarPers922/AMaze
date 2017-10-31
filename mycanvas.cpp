@@ -7,19 +7,17 @@
 #include <ctime>
 #include <QThread>
 
-#include "randomqueue.h"
-#include "position.h"
-
 #define CUBE_HEIGHT 5
 #define WALL_COLOR 51,153,255
-#define PATH_COLOR 255,255,255
+#define ROAD_COLOR 255,255,255
+#define PATH_COLOR 255,255,94
+
 int direction[4][2] = {{-1,0},{0,1},{1,0},{0,-1}};
 MyCanvas::MyCanvas(QWidget *parent) : QWidget(parent)
 {
     qsrand(time(NULL));
     Regenerate();
 }
-
 void MyCanvas::Generate()
 {
     myMaze.reset();
@@ -50,14 +48,57 @@ void MyCanvas::Generate()
 }
 void MyCanvas::Regenerate()
 {
+    for(int i = 0;i < MazeData::height; i ++)
+    {
+        for(int j = 0;j < MazeData::height; j ++)
+        {
+            visited [i][j] = false;
+            isPath [i][j] = false;
+        }
+    }
     Generate();
     this->update();
 }
+void MyCanvas::Solve()
+{
+    _Solve(myMaze.entranceX, myMaze.entranceY, myMaze.exitX, myMaze.exitY);
+    this->update();
+}
+
+bool MyCanvas::_Solve(int startX, int startY, int endX, int endY)
+{
+    visited[startX][startY] = true;
+    isPath[startX][startY] = true;
+    if(startX == endX &&
+       startY == endY)
+    {
+        return true;
+    }
+    for(int i = 0; i < 4; i ++)
+    {
+        int newX = startX + direction[i][0];
+        int newY = startY + direction[i][1];
+
+        if(myMaze.inArea(newX, newY)
+                && !visited[newX][newY]
+                && myMaze.maze[newX][newY] == ROAD)
+        {
+           if(_Solve(newX, newY, endX, endY))
+           {
+               return true;
+           }
+        }
+    }
+    isPath[startX][startY] = false;
+    return false;
+}
+
 void MyCanvas::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
-    QBrush blackBrush(QColor(WALL_COLOR));
-    QBrush whiteBrush(QColor(PATH_COLOR));
+    QBrush wallBrush(QColor(WALL_COLOR));
+    QBrush roadBrush(QColor(ROAD_COLOR));
+    QBrush pathBrush(QColor(PATH_COLOR));
     for(int i = 0; i < MazeData::height; i ++ )
     {
         for(int j = 0; j < MazeData::height; j ++)
@@ -65,7 +106,14 @@ void MyCanvas::paintEvent(QPaintEvent *)
             painter.fillRect(QRect(i * CUBE_HEIGHT,
                                    j * CUBE_HEIGHT,
                                    CUBE_HEIGHT,CUBE_HEIGHT),
-                                   myMaze.maze[i][j] == ROAD ? whiteBrush : blackBrush);
+                                   myMaze.maze[i][j] == ROAD ? roadBrush : wallBrush);
+            if(isPath[i][j])
+            {
+                painter.fillRect(QRect(i * CUBE_HEIGHT,
+                                       j * CUBE_HEIGHT,
+                                       CUBE_HEIGHT,CUBE_HEIGHT),
+                                       pathBrush);
+            }
         }
     }
 }

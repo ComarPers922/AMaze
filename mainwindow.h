@@ -19,8 +19,11 @@ public:
 private slots:
     void on_btnRegenerate_clicked();
 
+    void on_btnSolve_clicked();
+
 private:
     Ui::MainWindow *ui;
+    bool solved = false;
 };
 
 #endif // MAINWINDOW_H
