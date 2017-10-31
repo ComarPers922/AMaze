@@ -5,9 +5,9 @@
 MazeData::MazeData()
 {
     qsrand(time(NULL));
-    for(int i = 0 ; i < 131 ; i ++)
+    for(int i = 0 ; i < MazeData::height ; i ++)
     {
-        for(int j = 0 ; j < 131 ; j ++)
+        for(int j = 0 ; j < MazeData::height ; j ++)
         {
             if(i%2 == 1 && j%2 == 1)
             {
@@ -31,9 +31,9 @@ bool MazeData::inArea(int x, int y)
 
 void MazeData::reset()
 {
-    for(int i = 0 ; i < 131 ; i ++)
+    for(int i = 0 ; i < MazeData::height ; i ++)
     {
-        for(int j = 0 ; j < 131 ; j ++)
+        for(int j = 0 ; j < MazeData::height ; j ++)
         {
             if(i%2 == 1 && j%2 == 1)
             {

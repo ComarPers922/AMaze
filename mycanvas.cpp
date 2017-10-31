@@ -10,13 +10,16 @@
 #define CUBE_HEIGHT 5
 #define WALL_COLOR 51,153,255
 #define ROAD_COLOR 255,255,255
-#define PATH_COLOR 255,255,94
+#define PATH_COLOR 255,200,94
+#define PLAYER_COLOR 0,0,0
 
 int direction[4][2] = {{-1,0},{0,1},{1,0},{0,-1}};
 MyCanvas::MyCanvas(QWidget *parent) : QWidget(parent)
 {
     qsrand(time(NULL));
     Regenerate();
+    player.x = myMaze.entranceX;
+    player.y = myMaze.entranceY;
 }
 void MyCanvas::Generate()
 {
@@ -57,6 +60,8 @@ void MyCanvas::Regenerate()
         }
     }
     Generate();
+    player.x = myMaze.entranceX;
+    player.y = myMaze.entranceY;
     this->update();
 }
 void MyCanvas::Solve()
@@ -99,6 +104,7 @@ void MyCanvas::paintEvent(QPaintEvent *)
     QBrush wallBrush(QColor(WALL_COLOR));
     QBrush roadBrush(QColor(ROAD_COLOR));
     QBrush pathBrush(QColor(PATH_COLOR));
+    QBrush playerBrush(QColor(PLAYER_COLOR));
     for(int i = 0; i < MazeData::height; i ++ )
     {
         for(int j = 0; j < MazeData::height; j ++)
@@ -116,4 +122,46 @@ void MyCanvas::paintEvent(QPaintEvent *)
             }
         }
     }
+    painter.fillRect(QRect(player.x * CUBE_HEIGHT,
+                           player.y * CUBE_HEIGHT,
+                           CUBE_HEIGHT,CUBE_HEIGHT),
+                           playerBrush);
+}
+
+void MyCanvas::keyPressEvent(QKeyEvent *event)
+{
+    switch (event->key())
+    {
+    case Qt::Key_Up:
+        if(myMaze.inArea(player.x, player.y - 1) &&
+                myMaze.maze[player.x][player.y - 1] == ROAD)
+        {
+            player.y -= 1;
+        }
+        break;
+    case Qt::Key_Down:
+        if(myMaze.inArea(player.x, player.y + 1) &&
+                myMaze.maze[player.x][player.y + 1] == ROAD)
+        {
+            player.y += 1;
+        }
+        break;
+    case Qt::Key_Left:
+        if(myMaze.inArea(player.x - 1, player.y) &&
+                myMaze.maze[player.x - 1][player.y] == ROAD)
+        {
+            player.x -= 1;
+        }
+        break;
+    case Qt::Key_Right:
+        if(myMaze.inArea(player.x + 1, player.y) &&
+                myMaze.maze[player.x + 1][player.y] == ROAD)
+        {
+            player.x += 1;
+        }
+        break;
+    default:
+        break;
+    }
+    this->update();
 }

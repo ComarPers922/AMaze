@@ -17,13 +17,16 @@ public:
     explicit MyCanvas(QWidget *parent = 0);
     void Regenerate();
     void Solve();
+
 signals:
 
 public slots:
 protected:
     virtual void paintEvent(QPaintEvent *);
+    virtual void keyPressEvent(QKeyEvent * event);
 private:
     MazeData myMaze;
+    Position player;
     bool _Solve(int startX, int startY, int endX, int endY);
     void Generate();
 };

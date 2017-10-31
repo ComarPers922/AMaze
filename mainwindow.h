@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "mycanvas.h"
+#include <QTimer>
 
 namespace Ui {
 class MainWindow;
@@ -21,9 +22,12 @@ private slots:
 
     void on_btnSolve_clicked();
 
+    void getFocus();
+
 private:
     Ui::MainWindow *ui;
     bool solved = false;
+    QTimer* timer;
 };
 
 #endif // MAINWINDOW_H

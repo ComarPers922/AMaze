@@ -5,7 +5,7 @@
 class Position
 {
 public:
-    Position(int X, int Y);
+    Position(int X = 0, int Y = 0);
     int x, y;
 };
 
