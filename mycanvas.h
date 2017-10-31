@@ -3,7 +3,6 @@
 
 #include <QWidget>
 #include <QPaintEvent>
-#include <QStack>
 #include "mazedata.h"
 #include "randomqueue.h"
 #include "position.h"
@@ -12,7 +11,6 @@ class MyCanvas : public QWidget
 {
     Q_OBJECT
 private:
-    QStack<Position> stack;
     bool visited[MazeData::height][MazeData::height];
     bool isPath[MazeData::height][MazeData::height];
 public:
