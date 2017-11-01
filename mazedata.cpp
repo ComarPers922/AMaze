@@ -1,10 +1,12 @@
 #include "mazedata.h"
 #include <QtGlobal>
 #include <ctime>
+#include <QUuid>
 
 MazeData::MazeData()
 {
-    qsrand(time(NULL));
+    auto id = QUuid::createUuid();
+    qsrand(time(NULL) + id.toByteArray()[1] * id.toByteArray()[2] * + id.toByteArray()[3]);
     for(int i = 0 ; i < MazeData::height ; i ++)
     {
         for(int j = 0 ; j < MazeData::height ; j ++)

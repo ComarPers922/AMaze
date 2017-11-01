@@ -4,7 +4,7 @@
 
 #define ROAD 'r'
 #define WALL 'w'
-#define HEIGHT 133
+#define HEIGHT 141
 class MazeData : QObject
 {
     Q_OBJECT

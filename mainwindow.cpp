@@ -22,17 +22,12 @@ void MainWindow::on_btnRegenerate_clicked()
 {
     ui->myCanvas->Regenerate();
     ui->myCanvas->setFocus();
-    solved = false;
 }
 
 void MainWindow::on_btnSolve_clicked()
 {
     ui->myCanvas->setFocus();
-    if(!solved)
-    {
-        ui->myCanvas->Solve();
-        solved = true;
-    }
+    ui->myCanvas->Solve();
 }
 
 void MainWindow::getFocus()

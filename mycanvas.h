@@ -27,7 +27,8 @@ protected:
 private:
     MazeData myMaze;
     Position player;
-    bool _Solve(int startX, int startY, int endX, int endY);
+    Position wallDestroyer;
+    void findPath(Position* destination);
     void Generate();
 };
 

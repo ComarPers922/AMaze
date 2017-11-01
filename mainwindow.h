@@ -26,7 +26,6 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    bool solved = false;
     QTimer* timer;
 };
 
