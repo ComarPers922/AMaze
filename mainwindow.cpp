@@ -7,7 +7,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     timer = new QTimer();
     ui->setupUi(this);
-    timer->setInterval(30);
+    timer->setInterval(1000);
     timer->setSingleShot(false);
     connect(timer, SIGNAL(timeout()),this,SLOT(getFocus()));
     timer->start();
